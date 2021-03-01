@@ -1,19 +1,21 @@
 <html>
 <head>
     <title>Inadle DropShipping</title>
-    <!-- App ID: 7773261594916645 -->
-    <!-- Secret Key: nKMwXSOECQaj1xN73fFb3XWcKSYM2Otd -->
+    <!-- App ID: 7186806967479210-->
+    <!-- Secret Key: M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85-->
     <!-- Redirect URI: http://localhost:8000/ -->
+    <link rel="stylesheet" href="./css/menu.css" />
+
 </head>
 <body>
 
 <form action="login.php" method="POST">
-    <input type="submit" value="LOGIN"></input></form>
+    <input class ="button" type="submit" value="LOGIN"></input></form>
 
 <?php
 $codigo_acceso = $_GET['code'];
     if ($codigo_acceso == "") {
-        header("Location: http://auth.mercadolibre.com.co/authorization?response_type=code&client_id=7773261594916645&redirect_uri=http://localhost:8000/");
+        header("Location: http://auth.mercadolibre.com.co/authorization?response_type=code&client_id=7186806967479210&redirect_uri=http://localhost:8000/");
         exit();
     } else {
     session_start();

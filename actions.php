@@ -11,8 +11,8 @@ function Request_Token($CodigoAcceso){
     
     $data = <<<DATA
     {"grant_type": "authorization_code",
-    "client_id" : "7773261594916645",
-    "client_secret" : "nKMwXSOECQaj1xN73fFb3XWcKSYM2Otd" ,
+    "client_id" : "7186806967479210",
+    "client_secret" : "M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85" ,
     "code" : $CodigoAcceso,
     "redirect_uri" : "http://localhost:8000/"} 
     DATA;
@@ -25,10 +25,7 @@ function Request_Token($CodigoAcceso){
     $obj = json_decode($resp);
     //var_dump($obj);
     
-    $_SESSION["token_acceso"] = $obj -> {'access_token'};
-}?>
-
-
+    $_SESSION["token_acceso"] = $obj -> {'access_token'};}?>
 <script>
 //----------------- INFORMACION DEL USUARIO LOGUEADO 
 function Getuser(){
@@ -43,10 +40,98 @@ function Getuser(){
        if (xhr.readyState === 4) { //console.log(xhr.status); console.log(xhr.response);
           var result = JSON.parse(xhr.response);
           document.getElementById("demo").innerHTML = 'Id:' + result.id + ' Nikname: ' + result.nickname;
-         console.log(result)
+          sessionStorage.setItem("user_id", result.id);
+          let user_id = sessionStorage.getItem('user_id');
+          console.log(user_id);
          }};
-    xhr.send();
-}
+    xhr.send();}
+
+//----------------- DETALLE DE PRODUCTO INDIVIDUAL
+function ProductDetailed(ItemId){
+   var url = "https://api.mercadolibre.com/items/"+ItemId;
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   var xhr = new XMLHttpRequest();
+   xhr.open("GET", url);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces); 
+   const $cuerpoTabla = document.querySelector("#cuerpoTabla");
+   xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      //console.log(xhr.status);
+      //console.log(xhr.responseText);
+      var result = JSON.parse(xhr.responseText);
+      
+      const $tr = document.createElement("tr");
+      $cuerpoTabla.appendChild($tr);
+      let $IdItem = document.createElement("td");
+      $IdItem.textContent = result.id;
+      $tr.appendChild($IdItem);
+      let $Title = document.createElement("td");
+      $Title.textContent = result.title;
+      $tr.appendChild($Title);
+      let $Price = document.createElement("td");
+      $Price.textContent = result.price;
+      $tr.appendChild($Price);
+      let $Status = document.createElement("td");
+      $Status.textContent = result.status;
+      $tr.appendChild($Status);
+      let $Actions = document.createElement("td");
+
+      var btnPause = document.createElement("BUTTON"); btnPause.innerHTML = "PAUSE"; 
+      btnPause.setAttribute("id",  result.id); btnPause.setAttribute("onclick", "PAUSED_PUBLICATION(this)");
+
+      var btnActive = document.createElement("BUTTON"); btnActive.innerHTML = "ACTIVE"; 
+      btnActive.setAttribute("id",  result.id); btnActive.setAttribute("onclick", "ACTIVE_PUBLICATION(this)");
+
+      var btnInactive = document.createElement("BUTTON"); btnInactive.innerHTML = "INACTIVE"; 
+      btnInactive.setAttribute("id",  result.id); btnInactive.setAttribute("onclick", "INACTIVE_PUBLICATION(this)");
+
+      var btnClosed = document.createElement("BUTTON"); btnClosed.innerHTML = "CLOSED"; 
+      btnClosed.setAttribute("id",  result.id); btnClosed.setAttribute("onclick", "CLOSED_PUBLICATION(this)");
+
+      var btnDeleted = document.createElement("BUTTON"); btnDeleted.innerHTML = "DELETED"; 
+      btnDeleted.setAttribute("id",  result.id); btnDeleted.setAttribute("onclick", "DELETED_PUBLICATION(this)");
+
+      $Actions.appendChild(btnPause); 
+      $Actions.appendChild(btnActive); 
+      $Actions.appendChild(btnInactive);
+      $Actions.appendChild(btnClosed); 
+      $Actions.appendChild(btnDeleted); 
+      $tr.appendChild($Actions);
+      
+      
+
+   }};
+   xhr.send();}
+
+//----------------- LISTA DE TODOS LOS PRODUCTOS
+function GetListProduct(){
+   let user_id = sessionStorage.getItem('user_id');
+   var url = "https://api.mercadolibre.com/users/"+ user_id + "/items/search?search_type=scan";
+   var xhr = new XMLHttpRequest();
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.open("GET", url);
+   var result = "";
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces);
+   
+   xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      //console.log(xhr.status);
+      //console.log(xhr.responseText);
+      result = JSON.parse(xhr.response);
+
+      
+
+      result.results.forEach(element => {
+         ProductDetailed(element)
+      });
+   };
+   };
+   
+   xhr.send();}
 
 //----------------- PUBLICADOR MANUAL 
 function PublicarOne(){
@@ -111,6 +196,10 @@ function PublicarOne(){
                "value_name":document.getElementById("MODEL").value
             },
             {
+               "id":"ALPHANUMERIC_MODEL",
+               "value_name":document.getElementById("MODEL").value
+            },
+            {
                "id":"LINE",
                "value_name":document.getElementById("LINE").value
             },
@@ -132,8 +221,7 @@ function PublicarOne(){
          ]
    };
    var data2 = JSON.stringify(data);
-   xhr.send(data2);
-}
+   xhr.send(data2);}
 
 //----------------- PREDICTOR AUTOMATICO DE CATEGORIA
 function Predictor(){
@@ -175,9 +263,12 @@ function Predictor(){
             
          //CHECK MODEL
             var proba1 = results['0']['attributes'][1]['id'];
-            if (proba1 == "MODEL") {
+            console.log(results);
+            if (proba1 == "MODEL" || proba1 == "ALPHANUMERIC_MODEL" ) {
                var vMODEL =  results['0']['attributes'][1]['value_name'];
                document.getElementById("MODEL").value = vMODEL;
+               console.log(proba1);
+               console.log(vMODEL);
             } else if (proba1 == "LINE") {
                var vLINE = results['0']['attributes'][1]['value_name'];
                document.getElementById("LINE").value = vLINE;
@@ -205,9 +296,142 @@ function Predictor(){
 
    }
    }
-   xhrt.send(null);
+   xhrt.send(null);}
+
+//----------------- ACTIONS: Active, Inactive, Pauses, Closed, Deleted.
+function PAUSED_PUBLICATION(ITEM_ID){
+   var url = "https://api.mercadolibre.com/items/"+ITEM_ID.id;
+   var xhr = new XMLHttpRequest();
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.open("PUT", url);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces);
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         console.log(xhr.status);
+         console.log(xhr.responseText);
+      }};
+
+   var data = `{
+   "status":"paused"
+   }`;
+   xhr.send(data);}
+
+function ACTIVE_PUBLICATION(ITEM_ID){
+   var url = "https://api.mercadolibre.com/items/"+ITEM_ID.id;
+   var xhr = new XMLHttpRequest();
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.open("PUT", url);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces);
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         console.log(xhr.status);
+         console.log(xhr.responseText);
+      }};
+
+   var data = `{
+   "status":"active"
+   }`;
+   xhr.send(data);}
+
+function INACTIVE_PUBLICATION(ITEM_ID){
+   var url = "https://api.mercadolibre.com/items/"+ITEM_ID.id;
+   var xhr = new XMLHttpRequest();
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.open("PUT", url);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces);
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         console.log(xhr.status);
+         console.log(xhr.responseText);
+      }};
+
+   var data = `{
+   "status":"inactive"
+   }`;
+   xhr.send(data);}
+
+function CLOSED_PUBLICATION(ITEM_ID){
+   var url = "https://api.mercadolibre.com/items/"+ITEM_ID.id;
+   var xhr = new XMLHttpRequest();
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.open("PUT", url);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces);
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         console.log(xhr.status);
+         console.log(xhr.responseText);
+      }};
+
+   var data = `{
+   "status":"closed"
+   }`;
+   xhr.send(data);}
+
+function DELETED_PUBLICATION(ITEM_ID){
+   var url = "https://api.mercadolibre.com/items/"+ITEM_ID.id;
+   var xhr = new XMLHttpRequest();
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.open("PUT", url);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.setRequestHeader("Authorization", tokenacces);
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         console.log(xhr.status);
+         console.log(xhr.responseText);
+      }};
+
+   var data = `{
+   "deleted":"true"
+   }`;
+   xhr.send(data);}
+
+
+//----------------- ACTIONS: Active, Inactive, Pauses, Closed, Deleted.
+function TESTUSER(){
+   var url = "https://api.mercadolibre.com/users/test_user";
+   var xhr = new XMLHttpRequest();
+   xhr.open("POST", url);
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   xhr.setRequestHeader("Authorization", tokenacces);
+   xhr.setRequestHeader("Content-Type", "application/json");
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         console.log(xhr.status);
+         console.log(xhr.responseText);
+      }};
+   var data = `{
+         "site_id":"MCO"
+   }`;
+   xhr.send(data);
 }
 
+function QUAESTIONES(){
+   var url = "https://api.mercadolibre.com/questions/search?seller_id=722296690&sort_fields=item_id,date_created&sort_types=ASC";
 
+var xhr = new XMLHttpRequest();
+xhr.open("GET", url);
 
-   </script>
+xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type");
+xhr.setRequestHeader("Access-Control-Allow-Origin", "https://api.mercadolibre.com/questions/search?seller_id=722296690&api_version=2");
+xhr.setRequestHeader("Authorization", "Bearer APP_USR-7186806967479210-030122-2ab02539c7a095c10f8c2159baaa3d1f-722296690");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+
+xhr.send();
+}
+
+</script>

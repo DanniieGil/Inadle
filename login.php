@@ -11,8 +11,8 @@
 
     $data = <<<DATA
     {"grant_type": "authorization_code",
-    "client_id" : "7773261594916645",
-    "client_secret" : "nKMwXSOECQaj1xN73fFb3XWcKSYM2Otd" ,
+    "client_id" : "7186806967479210",
+    "client_secret" : "M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85" ,
     "code" : $codigoacceso,
     "redirect_uri" : "http://localhost:8000/"} 
     DATA;

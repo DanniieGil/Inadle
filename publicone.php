@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="./css/list_products.css" />    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
 <body>
 <p id="test"></p>
 <form action="menu.php" method="post">
-<input type="submit" value="Menu Principal"></input> 
+<input type="submit" value="MENÚ PRINCIPAL" class="button"></input> 
 </form>
 <?php 
 include ('actions.php');
@@ -21,7 +22,7 @@ include ('actions.php');
     
     <tr><td><label>Titulo:</label></td>             
         <td><input type="text" id="title" maxlength="60" value="" size="60%"></input>
-        <button onclick="Predictor()">PREDICTOR</button></td></tr>
+        <button class="button" onclick="Predictor()">PREDICTOR</button></td></tr>
 
     <tr><td><label>Categoria:</label></td>          
         <td><input type="text" id="category_id"></input>
@@ -102,7 +103,7 @@ Preguntar por disponibilidad antes de realizar la compra.
             <input type="text" id="foto_6" size="7%">  </input>
     </td></tr>
 
-    <td colspan="2" align="center"><button onclick="PublicarOne()">PUBLICAR</button></td>
+    <td colspan="2" align="center"><button class="button" onclick="PublicarOne()">PUBLICAR</button></td>
     
     </table>
 
