@@ -14,7 +14,7 @@ function Request_Token($CodigoAcceso){
     "client_id" : "7186806967479210",
     "client_secret" : "M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85" ,
     "code" : $CodigoAcceso,
-    "redirect_uri" : "http://localhost:8000/"} 
+    "redirect_uri" : "https://inadle.herokuapp.com/"} 
     DATA;
     
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data);

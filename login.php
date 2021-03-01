@@ -14,7 +14,7 @@
     "client_id" : "7186806967479210",
     "client_secret" : "M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85" ,
     "code" : $codigoacceso,
-    "redirect_uri" : "http://localhost:8000/"} 
+    "redirect_uri" : "https://inadle.herokuapp.com/"} 
     DATA;
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -24,5 +24,5 @@
     $obj = json_decode($resp);
     
     $_SESSION["token_acceso"] = $obj -> {'access_token'};
-    header("Location:http://localhost:8000/menu.php");
+    header("Location:https://inadle.herokuapp.com/menu.php");
 ?>
