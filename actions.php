@@ -39,7 +39,7 @@ function Getuser(){
     xhr.onreadystatechange = function () {
        if (xhr.readyState === 4) { //console.log(xhr.status); console.log(xhr.response);
           var result = JSON.parse(xhr.response);
-          document.getElementById("demo").innerHTML = 'Id:' + result.id + ' Nikname: ' + result.nickname;
+          document.getElementById("demo").innerHTML = 'Id:' + result.id + ' Nickname: ' + result.nickname;
           sessionStorage.setItem("user_id", result.id);
           let user_id = sessionStorage.getItem('user_id');
           console.log(user_id);
