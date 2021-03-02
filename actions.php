@@ -416,22 +416,17 @@ function TESTUSER(){
 }
 
 function QUAESTIONES(){
-   var url = "https://api.mercadolibre.com/questions/search?seller_id=722296690&sort_fields=item_id,date_created&sort_types=ASC";
+   var settings = {
+  "url": "https://api.mercadolibre.com/my/received_questions/search",
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Authorization": "Bearer APP_USR-7186806967479210-030204-2298d5ef718773e52e6001cf7b46c523-722296690"
+  },
+};
 
-var xhr = new XMLHttpRequest();
-xhr.open("GET", url);
-
-xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type");
-xhr.setRequestHeader("Access-Control-Allow-Origin", "https://api.mercadolibre.com/questions/search?seller_id=722296690&api_version=2");
-xhr.setRequestHeader("Authorization", "Bearer APP_USR-7186806967479210-030122-2ab02539c7a095c10f8c2159baaa3d1f-722296690");
-
-xhr.onreadystatechange = function () {
-   if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
-   }};
-
-xhr.send();
-}
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
 
 </script>
