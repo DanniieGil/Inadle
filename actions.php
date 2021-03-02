@@ -423,10 +423,11 @@ function QUAESTIONES(){
   "headers": {
     "Authorization": "Bearer APP_USR-7186806967479210-030204-2298d5ef718773e52e6001cf7b46c523-722296690"
   },
-};
+   };
 
-$.ajax(settings).done(function (response) {
+   $.ajax(settings).done(function (response) {
   console.log(response);
-});
+   });
+}
 
 </script>

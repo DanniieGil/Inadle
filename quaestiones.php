@@ -22,7 +22,7 @@ include ('actions.php');
 
 <h3 align="center">¿QUAESTIONES?</h3>
 <p>Link Mercadolibre:   <input type="text" size = "80%"> <button class="button" Type="button">QUERY</button>     </p>
-<script>QUAESTIONES();</script>
+<script>QUAESTIONES()</script>
 
 </body>
 </html>
