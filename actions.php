@@ -430,4 +430,22 @@ function QUAESTIONES(){
    });
 }
 
+function QUAESTIONES2(){
+   var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.mercadolibre.com/my/received_questions/search");
+xhr.setRequestHeader("Authorization", "Bearer APP_USR-7186806967479210-030204-2298d5ef718773e52e6001cf7b46c523-722296690");
+
+xhr.send();
+}
+
+
+
 </script>
