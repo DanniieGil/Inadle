@@ -1,5 +1,5 @@
 <?php
-echo "3";
-$data=$_GET["topic"];
+echo "34";
+$data=$_GET["id"];
 echo "Welcome ". $data. "<br />";
 ?>
