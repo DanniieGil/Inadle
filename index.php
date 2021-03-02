@@ -5,6 +5,7 @@
     <!-- Secret Key: M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85-->
     <!-- Redirect URI: https://inadle.herokuapp.com/ -->
     <link rel="stylesheet" href="./css/menu.css" />
+    <script src="./js/jquery.min.js" type="text/javascript"></script>   
 
 </head>
 <body>
