@@ -1,13 +1,8 @@
 <?php
-/* Leemos los datos proporcionados en los parámetros GET */
-$datos = [
-  'user_id' => $_GET['user_id'],
-  'resource' => $_GET['resource'],
-];
-/* Guardamos la información en un archivo de registro */
-file_put_contents(
-  'registro.log',
-  json_encode($datos) . PHP_EOL,
-  FILE_APPEND
-);
+echo "test1";
+  // Capturando el objeto JSON
+  $body = @file_get_contents('php://input'); 
+
+  // Decodificando el objeto JSON
+  $event_json = json_decode($body);  
 ?>
