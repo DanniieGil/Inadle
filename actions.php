@@ -1,4 +1,34 @@
 <?php
+
+function ANSWER2($IdQuestion,$TextQuestion){
+   session_start();
+   $token_acceso2= "Bearer " . $_SESSION["token_acceso"];
+   $url = "https://api.mercadolibre.com/answers";
+   $curl = curl_init($url);
+   curl_setopt($curl, CURLOPT_URL, $url);
+   curl_setopt($curl, CURLOPT_POST, true);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+   $headers = array(
+      "Access-Control-Allow-Credentials: true",
+      "Authorization: $token_acceso2",
+      "Content-Type: application/json",
+   );
+   curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+   $data = <<<DATA
+   {
+   "question_id": $IdQuestion, 
+    "text": "$TextQuestion"
+   }
+   DATA;
+   curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+   //for debug only!
+   curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+   $resp = curl_exec($curl);
+   curl_close($curl);
+
+   
+}
 //----------------- SOLICITUD DEL TOKEN ACCESS 
 function Request_Token($CodigoAcceso){
     $url = "https://api.mercadolibre.com/oauth/token";
@@ -14,7 +44,7 @@ function Request_Token($CodigoAcceso){
     "client_id" : "7186806967479210",
     "client_secret" : "M9SHWPfDgwZk3Zb5hBgTvqpL3Z0w6C85" ,
     "code" : $CodigoAcceso,
-    "redirect_uri" : "https://inadle.herokuapp.com/"} 
+    "redirect_uri" : "http://localhost:8000/"} 
     DATA;
     
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
@@ -76,6 +106,7 @@ function ProductDetailed(ItemId){
       let $Status = document.createElement("td");
       $Status.textContent = result.status;
       $tr.appendChild($Status);
+
       let $Actions = document.createElement("td");
 
       var btnPause = document.createElement("BUTTON"); btnPause.innerHTML = "PAUSE"; 
@@ -395,7 +426,7 @@ function DELETED_PUBLICATION(ITEM_ID){
    xhr.send(data);}
 
 
-//----------------- ACTIONS: Active, Inactive, Pauses, Closed, Deleted.
+//----------------- QUESTIONS AND ANSWER
 function TESTUSER(){
    var url = "https://api.mercadolibre.com/users/test_user";
    var xhr = new XMLHttpRequest();
@@ -412,40 +443,92 @@ function TESTUSER(){
    var data = `{
          "site_id":"MCO"
    }`;
-   xhr.send(data);
-}
+   xhr.send(data);}
 
 function QUAESTIONES(){
+   const $elemento = document.querySelector("#TablaQuestions");
+   $elemento.innerHTML = "";
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   var filtro = document.getElementById("FILTER_QUESTION").value
    var settings = {
-  "url": "https://api.mercadolibre.com/my/received_questions/search",
-  "method": "GET",
+         "url": "https://api.mercadolibre.com/my/received_questions/search?search_type=scan&sort_fields=date_created&sort_types=DESC&status="+filtro,
+         "method": "GET",
+         "timeout": 0,
+         "headers": {"Authorization": tokenacces},
+      }; 
+   $.ajax(settings).done(function (response) {
+   console.log(response.questions);
+
+   //TABLA DE PREGUNTAS Y RESPUESTAS
+   const $cuerpoTabla = document.querySelector("#TablaQuestions");
+    response.questions.forEach(element => {
+      const $tr = document.createElement("tr");
+      $cuerpoTabla.appendChild($tr);
+
+      //Id
+      let $IdItem1 = document.createElement("td");
+      $IdItem1.textContent = element.id;
+      $IdItem1.setAttribute("id", element.id);
+      $tr.appendChild($IdItem1);
+
+      //Date Created
+      let $IdItem2 = document.createElement("td");
+      
+      $IdItem2.textContent = element.date_created;
+      $tr.appendChild($IdItem2);
+
+      //Item Id
+      let $IdItem3 = document.createElement("td");
+      var str= "Hello";
+      $IdItem3.innerHTML = element.item_id.link("https://api.mercadolibre.com/items/"+element.item_id);
+      $tr.appendChild($IdItem3);
+
+      //Status
+      let $IdItem4 = document.createElement("td");
+      $IdItem4.textContent = element.status;
+      $tr.appendChild($IdItem4);
+
+      //Question
+      let $IdItem5 = document.createElement("td");
+      $IdItem5.textContent = element.text;
+      $tr.appendChild($IdItem5);
+         if (element.answer != null) {
+            //Answer
+            let $IdItem6 = document.createElement("td");
+            $IdItem6.textContent = element.answer.text;
+            $tr.appendChild($IdItem6);
+            
+         } else {
+            let $IdItem6 = document.createElement("td");
+            $IdItem6.textContent = "";
+            $tr.appendChild($IdItem6);
+
+            //ACTIONS FOR QUESTION
+            let $Actions = document.createElement("td");
+            //var btnResponse = document.createElement("BUTTON"); btnResponse.innerHTML = "RESPONDER"; 
+            //btnResponse.setAttribute("id",  element.id); btnResponse.setAttribute("onclick", "ANSWER(this)");
+            var btnDelete = document.createElement("BUTTON"); btnDelete.innerHTML = "ELIMINAR"; 
+            btnDelete.setAttribute("id",  element.id); btnDelete.setAttribute("onclick", "DELETED(this)");
+            //$Actions.appendChild(btnResponse); 
+            $Actions.appendChild(btnDelete); 
+            $tr.appendChild($Actions);
+         }
+      });});}
+
+function DELETED(ID_QUESTION) {
+   var token= ("<?php session_start(); echo $_SESSION['token_acceso']; ?>");
+   const tokenacces = "Bearer "+ token;
+   var settings = {
+  "url": "https://api.mercadolibre.com/questions/"+ID_QUESTION.id,
+  "method": "DELETE",
   "timeout": 0,
   "headers": {
-    "Authorization": "Bearer APP_USR-7186806967479210-030204-2298d5ef718773e52e6001cf7b46c523-722296690"
-  },
-   };
-
+    "Authorization": tokenacces
+  },};
    $.ajax(settings).done(function (response) {
-  console.log(response);
-   });
-}
-
-function QUAESTIONES2(){
-   var xhr = new XMLHttpRequest();
-xhr.withCredentials = true;
-
-xhr.addEventListener("readystatechange", function() {
-  if(this.readyState === 4) {
-    console.log(this.responseText);
-  }
-});
-
-xhr.open("GET", "https://api.mercadolibre.com/my/received_questions/search");
-xhr.setRequestHeader("Authorization", "Bearer APP_USR-7186806967479210-030204-2298d5ef718773e52e6001cf7b46c523-722296690");
-
-xhr.send();
-}
-
-
+   console.log(response)
+   QUAESTIONES();
+   ;;});   }
 
 </script>
