@@ -1,5 +1,4 @@
 <?php
-
 function ANSWER2($IdQuestion,$TextQuestion){
    session_start();
    $token_acceso2= "Bearer " . $_SESSION["token_acceso"];
@@ -25,10 +24,7 @@ function ANSWER2($IdQuestion,$TextQuestion){
    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
    $resp = curl_exec($curl);
-   curl_close($curl);
-
-   
-}
+   curl_close($curl);  }
 //----------------- SOLICITUD DEL TOKEN ACCESS 
 function Request_Token($CodigoAcceso){
     $url = "https://api.mercadolibre.com/oauth/token";
@@ -55,7 +51,9 @@ function Request_Token($CodigoAcceso){
     $obj = json_decode($resp);
     //var_dump($obj);
     
-    $_SESSION["token_acceso"] = $obj -> {'access_token'};}?>
+    $_SESSION["token_acceso"] = $obj -> {'access_token'};} 
+?>
+
 <script>
 //----------------- INFORMACION DEL USUARIO LOGUEADO 
 function Getuser(){

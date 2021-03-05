@@ -20,6 +20,7 @@
    <form action="list_products.php" method="post"><button type="submit" class="button">LISTA DE PUBLICACIONES</button></form><br>
    <form action="replicantis.php" method="post"><button type="submit" class="button">REPLICANTIS MERCADOLIBRE</button></form><br>
    <form action="quaestiones.php" method="post"><button type="submit" class="button">QUAESTIONES</button></form><br>
+   <form action="database.php" method="post"><button type="submit" class="button">DATABASE</button></form><br>
    <button class="button" onclick="TESTUSER()" disabled>CREATE TEST USER</button>
    
     </ul>
