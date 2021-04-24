@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="./css/menu.css" />
+    <link rel="stylesheet" href="../css/inadle.css"/>  
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +9,22 @@
     <?php
     include "actions.php";
     ?>
+
 </head>
 <body>
 
-<p id="demo"></p>
-   <script>
+<p class="user-info" id="user-info"></p>
+<script>
         Getuser();
-   </script>
-   <form action="publicone.php" method="post"><button type="submit" class="button">PUBLICAR INDIVIDUAL</button></form> <br>
-   <form action="list_products.php" method="post"><button type="submit" class="button">LISTA DE PUBLICACIONES</button></form><br>
-   <form action="replicantis.php" method="post"><button type="submit" class="button">REPLICANTIS MERCADOLIBRE</button></form><br>
-   <form action="quaestiones.php" method="post"><button type="submit" class="button">QUAESTIONES</button></form><br>
-   <form action="database.php" method="post"><button type="submit" class="button">DATABASE</button></form><br>
-   <button class="button" onclick="TESTUSER()" disabled>CREATE TEST USER</button>
-   
-    </ul>
+</script>
+
+<div class="container__menu"> 
+    <button class="button__menu" onclick="window.location.href='../publicone.php'">PUBLICAR MANUAL</button>
+    <button class="button__menu" onclick="window.location.href='../list_products.php'">LISTA PUBLICACIONES</button>
+    <button class="button__menu" onclick="window.location.href='../quaestiones.php'">PREGUNTAS Y RESPUESTAS</button>
+    <button class="button__menu" onclick="window.location.href='../replicantis.php'" disabled>AMAZON LINK</button>
+    <button class="button__menu" onclick="TESTUSER()" disabled>CREATE TEST USER</button>
+</div>
+
 </body>
-</html>
+</html> 

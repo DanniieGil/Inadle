@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="./css/list_products.css" />    
+    <link rel="stylesheet" href="../css/inadle.css"/>  
+
+<script src="http://localhost:8000/js/jquery.min.js" type="text/javascript"></script> 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INADLE</title>
     
+    
 </head>
 <body>
-<p id="test"></p>
-<form action="menu.php" method="post">
-<input type="submit" value="MENÚ PRINCIPAL" class="button"></input> 
-</form>
+<p class="user-info" id="user-info"></p>
 <?php 
 include ('actions.php');
 ?>
+<script>
+    Getuser();
+</script>
+
+
+<p id="test"></p>
+<form action="menu.php" method="post">
+<input type="submit" value="MENÚ PRINCIPAL" class="button__menu"></input> 
+</form>
+
 
 <h3 align="center">PUBLICADOR MANUAL</h3>
-    <table>
+<table id="PublicaOne">
     
     <tr><td><label>Titulo:</label></td>             
         <td><input type="text" id="title" maxlength="60" value="" size="60%"></input>
-        <button class="button" onclick="Predictor()">PREDICTOR</button></td></tr>
+        <button class="button__menu" onclick="Predictor()">PREDICTOR</button></td></tr>
 
     <tr><td><label>Categoria:</label></td>          
-        <td><input type="text" id="category_id"></input>
-        <input type="text" id="category_name"></input>
-        <input type="text" id="BRAND"></input>
-        <input type="text" id="LINE"></input>
-        <input type="text" id="MODEL"></input>
+        <td><input type="text" id="category_id" value="MCO1714"></input>
+        <input type="text" id="category_name" value="Mouses"></input>
+        <input type="text" id="BRAND" value="Logitech"></input>
+        <input type="text" id="LINE" value="Logitech"></input>
+        <input type="text" id="MODEL" value="G203"></input>
         </td></td></tr>
     
     <tr><td><label>Precio:</label>                  
-        <td><input type="text" id="price"> </input>
+        <td><input type="text" id="price" value="249999"> </input>
             <select name="moneda" id="currency_id">
                 <option value="COP">COP</option>
                 <option value="MX">MXN</option>
@@ -64,15 +74,12 @@ include ('actions.php');
 Preguntar por disponibilidad antes de realizar la compra.
 
 --------------------------------------------------------------------------------------
-
-</textarea></td></tr>
-
+        </textarea></td></tr>
     <tr><td><label>Color:</label>                   
         <td><input type="text" id="color" size="5%" value="Negro"> </input>
         <label>Video Id:</label>    
         <input type="text" id="video_id" size="15%"> </input>
         </td></tr>
-
 
     <tr><td><label>Garantia:</label> 
     <td><input type="text" id="WARRANTY_TIME_a" value="12" size="1%"></input>   
@@ -95,17 +102,21 @@ Preguntar por disponibilidad antes de realizar la compra.
     </td></tr>
 
     <tr><td><label>Fotos:</label> </td><td>
-            <input type="text" id="foto_1" size="7%">  </input>
-            <input type="text" id="foto_2" size="7%" > </input>
-            <input type="text" id="foto_3" size="7%">  </input>
-            <input type="text" id="foto_4" size="7%">  </input>
-            <input type="text" id="foto_5" size="7%">  </input>
-            <input type="text" id="foto_6" size="7%">  </input>
+            <input type="text" id="foto_1" size="7%" value=""></input>
+            <input type="text" id="foto_2" size="7%"></input>
+            <input type="text" id="foto_3" size="7%"></input>
+            <input type="text" id="foto_4" size="7%"></input>
+            <input type="text" id="foto_5" size="7%"></input>
+            <input type="text" id="foto_6" size="7%"></input>
     </td></tr>
+    <tr><td><label>Enlance Amazon: </label> </td>
+    <td><input type="text" id="Id_Amazon" size="100%" value=""></input></td></tr>
+    <tr><td><label>Precio Amazon: </label> </td>
+    <td><input type="text" id="Precio_Amazon" size="100%" value=""></input></td></tr>
+    <td colspan="2" align="center"><button class="button__menu" id="button" onclick="PublicarOne()">PUBLICAR</button></td>
+</table>
 
-    <td colspan="2" align="center"><button class="button" onclick="PublicarOne()">PUBLICAR</button></td>
-    
-    </table>
+<p id="attrib_Adds"></p>
 
 </body>
 </html>

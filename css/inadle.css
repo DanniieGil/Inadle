@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
+* {
+    font-family: sans-serif;
+    font-size: 0.9rem;
+}
+
+.container__menu {
+    display: flex;
+    flex-direction: row;
+    align-content:space-between;
+    margin-top: -5px;
+    width: auto;
+}
+
+.button__menu {
+    
+    font-family: 'Source Sans Pro', sans-serif;
+    letter-spacing: 1px;
+    background-color: #25252A;
+    width: max-content;
+    height: auto;
+    border: solid 1px black;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+    margin: 2px;
+    align-self: auto;
+    padding: 0.4rem;
+    
+
+}
+
+.button__menu:hover {
+    box-shadow: inset 300px 0 0 0 #3a3b3c; 
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+
+}
+
+.button__lista_productos__positive {
+    font-family: sans-serif;
+    display: inline-flex;
+    background-color: rgb(39, 148, 34);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.4s;
+    border: 0.7px solid rgb(0, 0, 0);
+    border-radius: 4px;
+    margin-right: 0.2rem;
+
+}
+
+.button__lista_productos__positive:hover {
+    color: rgb(0, 0, 0);
+    transform: scale(1.02);
+    text-shadow: 1px 1px 10px  rgb(240, 240, 240);
+    border-radius: 5%;
+}
+
+.button__lista_productos__negative {
+    font-family: sans-serif;
+    display: inline-flex;
+    background-color: rgb(243, 2, 2);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.4s;
+    border: 0.7px solid rgb(0, 0, 0);
+    border-radius: 4px;
+    margin-right: 0.2rem;
+
+}
+
+.button__lista_productos__negative:hover {
+    color: rgb(0, 0, 0);
+    transform: scale(1.02);
+    text-shadow: 1px 1px 10px  rgb(0, 0, 0);
+    border-radius: 5%;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.ListaPublicaciones {
+    width: max-content;
+    text-align: center;
+}
+
+
+th {
+    background-color: black;
+    color: white;
+    padding: 5px;
+}
+
+td{
+    padding-left:2px;
+    padding-right:  2px;
+}
+
+.ListaPublicaciones tr:hover {
+    background-color: #b8b5b5;
+} 
+
+
+
+
+
+.user-info {
+    background-color: black;
+    color: white;
+    margin-top: -10px;
+    font-family: sans-serif;
+    font-size: smaller;
+    transition: 0.2s;
+    padding: 0.5rem;
+    position: relative;
+}
+
+.user-info:hover {
+    color: turquoise;
+}
+
+.menu__list_products {
+    display: flex;
+}
